@@ -1,13 +1,14 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { Dog } from '../../models';
+import { Dog, Cat } from '../../models';
 
-const API_KEY = 'live_lnZB5pTdeGYxVuGjzpQJSb0VFRvxaFsxed9ErShXcz2zoSOF5gHZRvXtFJUPGZQK';
+const DOGS_API_KEY = 'live_lnZB5pTdeGYxVuGjzpQJSb0VFRvxaFsxed9ErShXcz2zoSOF5gHZRvXtFJUPGZQK';
+const CATS_API_KEY = 'live_gcMN7tzYHFW7uYkfgaCdoJEWMkAmiISf9YxvJHqeQk2EH71BmqWuZ7KKNE4SasKM';
+
+const DOGS_URL = 'api.thedogapi.com/v1';
+const CATS_URL = 'api.thecatapi.com/v1';
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'https://api.thedogapi.com/v1',
-  prepareHeaders: (headers, api) => {
-    headers.set('X-API-KEY', API_KEY);
-  },
+  baseUrl: 'https://',
 });
 
 export const apiSlice = createApi({
@@ -15,9 +16,22 @@ export const apiSlice = createApi({
   baseQuery,
   endpoints: (builder) => ({
     fetchDogs: builder.query<Dog[], number>({
-      query: (limit) => `/images/search?limit=${limit}`,
+      query: (limit) => ({
+        url: `${DOGS_URL}/images/search?limit=${limit}`,
+        headers: {
+          'x-api-key': DOGS_API_KEY,
+        },
+      }),
+    }),
+    fetchCats: builder.query<Cat[], number>({
+      query: (limit) => ({
+        url: `${CATS_URL}/images/search?limit=${limit}`,
+        headers: {
+          'x-api-key': CATS_API_KEY,
+        },
+      }),
     }),
   }),
 });
 
-export const { useFetchDogsQuery } = apiSlice;
+export const { useFetchDogsQuery, useFetchCatsQuery } = apiSlice;
