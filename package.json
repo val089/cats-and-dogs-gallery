@@ -2,7 +2,6 @@
   "name": "cats-and-dogs-gallery",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -27,10 +26,11 @@
     "eslint": "^8.36.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-react": "^7.32.2",
+    "husky": "^7.0.0",
+    "lint-staged": "12.4.1",
     "prettier": "^2.8.7",
     "typescript": "^4.9.3",
-    "vite": "^4.2.0",
-    "husky": "^7.0.0"
+    "vite": "^4.2.0"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": "eslint --fix",
