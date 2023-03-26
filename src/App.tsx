@@ -2,10 +2,8 @@ import { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 // import { useFetchCatsQuery, useFetchDogsQuery } from './store/slices/api';
 // import { GalleryMain } from './GalleryMain';
-// import './App.css';
-import { HomePage } from '@app/pages/HomePage';
-import { FavouritesPage } from '@app/pages/FavourtiesPage';
-import { GalleryPage } from '@app/pages/GalleryPage';
+import './App.scss';
+import { HomePage, FavouritesPage, GalleryPage } from '@app/pages';
 
 function App() {
   // const [page, setPage] = useState(0);

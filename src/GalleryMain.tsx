@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import { Gallery } from './Gallery';
-import { ArrowRightIcon } from '@app/assets/icons/ArrowRightIcon';
-import { ArrowLeftIcon } from '@app/assets/icons/ArrowLeftIcon';
+import { ArrowLeftIcon, ArrowRightIcon } from '@app/assets/icons';
 import './Pagination.scss';
 
 import { useFetchDogsQuery } from './store/slices/api';
