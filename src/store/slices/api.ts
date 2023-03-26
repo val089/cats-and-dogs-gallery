@@ -11,13 +11,18 @@ const baseQuery = fetchBaseQuery({
   baseUrl: 'https://',
 });
 
+interface QueryParams {
+  limit?: number;
+  page?: number;
+}
+
 export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery,
   endpoints: (builder) => ({
-    fetchDogs: builder.query<Dog[], number>({
-      query: (limit) => ({
-        url: `${DOGS_URL}/images/search?limit=${limit}`,
+    fetchDogs: builder.query<Dog[], QueryParams>({
+      query: ({ limit = 10, page = 0 }) => ({
+        url: `${DOGS_URL}/images/search?page=${page}&limit=${limit}`,
         headers: {
           'x-api-key': DOGS_API_KEY,
         },
