@@ -69,3 +69,7 @@ export interface CatBreed {
   short_legs: number;
   hypoallergenic: number;
 }
+
+export interface SelectedPage {
+  selected: number;
+}

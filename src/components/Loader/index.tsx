@@ -1,6 +1,6 @@
 import Lottie from 'lottie-react';
-import runningDog from 'assets/animations/running-dog.json';
-import classes from 'Loader.module.scss';
+import runningDog from '@app/assets/animations/running-dog.json';
+import classes from './Loader.module.scss';
 
 export const Loader = () => {
   return (

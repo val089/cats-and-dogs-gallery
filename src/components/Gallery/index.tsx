@@ -1,4 +1,4 @@
-import { Cat, Dog } from './models';
+import { Cat, Dog } from '@app/models';
 
 interface GalleryProps {
   currentItems: Dog[] | Cat[];
