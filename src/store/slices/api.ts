@@ -14,29 +14,24 @@ const baseQuery = fetchBaseQuery({
 interface QueryParams {
   limit?: number;
   page?: number;
+  filter: 'dogs' | 'cats';
 }
 
 export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery,
   endpoints: (builder) => ({
-    fetchDogs: builder.query<Dog[], QueryParams>({
-      query: ({ limit = 10, page = 0 }) => ({
-        url: `${DOGS_URL}/images/search?page=${page}&limit=${limit}`,
+    fetchPhotos: builder.query<Dog[] | Cat[], QueryParams>({
+      query: ({ limit = 10, page = 0, filter = 'dogs' }) => ({
+        url: `${
+          filter === 'dogs' ? DOGS_URL : CATS_URL
+        }/images/search?page=${page}&limit=${limit}&mime_types=jpg,png`,
         headers: {
-          'x-api-key': DOGS_API_KEY,
-        },
-      }),
-    }),
-    fetchCats: builder.query<Cat[], number>({
-      query: (limit) => ({
-        url: `${CATS_URL}/images/search?limit=${limit}`,
-        headers: {
-          'x-api-key': CATS_API_KEY,
+          'x-api-key': filter === 'dogs' ? DOGS_API_KEY : CATS_API_KEY,
         },
       }),
     }),
   }),
 });
 
-export const { useFetchDogsQuery, useFetchCatsQuery } = apiSlice;
+export const { useFetchPhotosQuery } = apiSlice;
