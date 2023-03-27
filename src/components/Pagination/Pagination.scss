@@ -11,6 +11,10 @@
   li {
     margin: 0 20px;
   }
+
+  @media (max-width: 700px) {
+    position: unset;
+  }
 }
 
 .item {
@@ -22,6 +26,11 @@
   height: 40px;
   justify-content: center;
   width: 40px;
+
+  @media (max-width: 700px) {
+    height: 20px;
+    width: 20px;
+  }
 }
 
 .next {
