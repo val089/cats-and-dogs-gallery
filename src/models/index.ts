@@ -73,3 +73,4 @@ export interface CatBreed {
 export interface SelectedPage {
   selected: number;
 }
+export type Filter = 'dogs' | 'cats';

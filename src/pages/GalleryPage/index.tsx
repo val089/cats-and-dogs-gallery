@@ -1,10 +1,18 @@
-import { useState, useCallback } from 'react';
-import Gallery, { GalleryI, GalleryProps } from 'react-photo-gallery';
-import Carousel, { Modal, ModalGateway } from 'react-images';
-import { Pagination } from '@app/components';
-import { useFetchDogsQuery } from '@app/store/slices/api';
-import { Loader } from '@app/components';
-import { SelectedPage } from '@app/models';
+import { useState } from 'react';
+import { Pagination, Loader, Button } from '@app/components';
+import { useFetchPhotosQuery } from '@app/store/slices/api';
+
+import PhotoAlbum from 'react-photo-album';
+import Lightbox from 'yet-another-react-lightbox';
+import 'yet-another-react-lightbox/styles.css';
+
+import Fullscreen from 'yet-another-react-lightbox/plugins/fullscreen';
+import Slideshow from 'yet-another-react-lightbox/plugins/slideshow';
+import Thumbnails from 'yet-another-react-lightbox/plugins/thumbnails';
+import Zoom from 'yet-another-react-lightbox/plugins/zoom';
+import 'yet-another-react-lightbox/plugins/thumbnails.css';
+
+import { Filter, SelectedPage } from '@app/models';
 import classes from './GalleryPage.module.scss';
 
 const totalItems = 200;
@@ -12,24 +20,22 @@ const itemsPerPage = 20;
 
 export const GalleryPage = () => {
   const [currentPage, setCurrentPage] = useState(0);
-
-  const [currentImage, setCurrentImage] = useState(0);
-  const [viewerIsOpen, setViewerIsOpen] = useState(false);
+  const [filter, setFilter] = useState<Filter>('dogs');
+  const [photoIndex, setPhotoIndex] = useState(-1);
 
   const {
-    data: dogs,
-    isError: isDogsError,
-    isLoading: isDogsLoading,
+    data: photos,
+    isError,
     isFetching,
-  } = useFetchDogsQuery({ limit: itemsPerPage, page: currentPage });
+  } = useFetchPhotosQuery({ limit: itemsPerPage, page: currentPage, filter });
 
-  const formatedDogs =
-    dogs &&
-    dogs.map((dog) => ({
-      src: dog.url,
-      width: dog.width || 300,
-      height: dog.height || 300,
-      id: dog.id,
+  const formatedPhotos =
+    photos &&
+    photos.map((photo) => ({
+      src: photo.url,
+      width: photo.width || 300,
+      height: photo.height || 300,
+      id: photo.id,
     }));
 
   const pageCount = Math.ceil(totalItems / itemsPerPage);
@@ -38,17 +44,7 @@ export const GalleryPage = () => {
     setCurrentPage(selectedPage.selected);
   };
 
-  const openLightbox = useCallback((event, { photo, index }) => {
-    setCurrentImage(index);
-    setViewerIsOpen(true);
-  }, []);
-
-  const closeLightbox = () => {
-    setCurrentImage(0);
-    setViewerIsOpen(false);
-  };
-
-  if (isDogsError) {
+  if (isError) {
     return (
       <div>
         <p>An error has occurred</p>
@@ -59,18 +55,31 @@ export const GalleryPage = () => {
   return (
     <div className={classes.gallery}>
       <h2>Gallery</h2>
+      <div className={classes.filters}>
+        <Button onClick={() => setFilter('dogs')} label="Dogs" />
+        <Button onClick={() => setFilter('cats')} label="Cats" />
+      </div>
       <Pagination pageCount={pageCount} onPageChange={handlePageClick} />
-      {isFetching && <Loader />}
-      {!!formatedDogs?.length && !isFetching && (
+      {isFetching && <Loader filter={filter} />}
+      {!!formatedPhotos?.length && !isFetching && (
         <>
-          <Gallery photos={formatedDogs} onClick={openLightbox} />
-          <ModalGateway>
-            {viewerIsOpen ? (
-              <Modal onClose={closeLightbox}>
-                <Carousel currentIndex={currentImage} views={formatedDogs} />
-              </Modal>
-            ) : null}
-          </ModalGateway>
+          <div className={classes.photoAlbum}>
+            <PhotoAlbum
+              photos={formatedPhotos}
+              layout="rows"
+              targetRowHeight={300}
+              spacing={5}
+              onClick={({ index }) => setPhotoIndex(index)}
+            />
+          </div>
+
+          <Lightbox
+            slides={formatedPhotos}
+            open={photoIndex >= 0}
+            index={photoIndex}
+            close={() => setPhotoIndex(-1)}
+            plugins={[Fullscreen, Slideshow, Thumbnails, Zoom]}
+          />
         </>
       )}
     </div>
