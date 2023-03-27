@@ -1,10 +1,12 @@
 import { Routes, Route } from 'react-router-dom';
 import { HomePage, FavouritesPage, GalleryPage } from '@app/pages';
+import { Header } from '@app/components';
 import './App.scss';
 
 function App() {
   return (
     <>
+      <Header />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/favourties" element={<FavouritesPage />} />
