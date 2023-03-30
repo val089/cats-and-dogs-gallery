@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { Pagination, Loader, Button } from '@app/components';
-import { useFetchPhotosQuery } from '@app/store/slices/api';
+import { useAuth } from '@app/hooks/useAuth';
+import { Pagination, Loader, Filters } from '@app/components';
+import { useAddToFavouritesMutation, useFetchPhotosQuery } from '@app/store/slices/api';
 
 import PhotoAlbum from 'react-photo-album';
 import Lightbox from 'yet-another-react-lightbox';
@@ -19,6 +20,7 @@ const totalItems = 200;
 const itemsPerPage = 20;
 
 export const GalleryPage = () => {
+  const { userId } = useAuth();
   const [currentPage, setCurrentPage] = useState(0);
   const [filter, setFilter] = useState<Filter>('dogs');
   const [photoIndex, setPhotoIndex] = useState(-1);
@@ -28,6 +30,8 @@ export const GalleryPage = () => {
     isError,
     isFetching,
   } = useFetchPhotosQuery({ limit: itemsPerPage, page: currentPage, filter });
+
+  const [addToFavourites] = useAddToFavouritesMutation();
 
   const formatedPhotos =
     photos &&
@@ -55,10 +59,7 @@ export const GalleryPage = () => {
   return (
     <div className={classes.gallery}>
       <h2>Gallery</h2>
-      <div className={classes.filters}>
-        <Button onClick={() => setFilter('dogs')} label="Dogs" />
-        <Button onClick={() => setFilter('cats')} label="Cats" />
-      </div>
+      <Filters onCats={() => setFilter('cats')} onDogs={() => setFilter('dogs')} />
       <Pagination pageCount={pageCount} onPageChange={handlePageClick} />
       {isFetching && <Loader filter={filter} />}
       {!!formatedPhotos?.length && !isFetching && (
@@ -70,6 +71,23 @@ export const GalleryPage = () => {
               targetRowHeight={300}
               spacing={5}
               onClick={({ index }) => setPhotoIndex(index)}
+              renderPhoto={({ photo, wrapperStyle, renderDefaultPhoto }) => (
+                <div style={wrapperStyle} className={classes.photo}>
+                  {renderDefaultPhoto({ wrapped: true })}{' '}
+                  <button
+                    className={classes.addToFavouritesBtn}
+                    onClick={async () =>
+                      await addToFavourites({
+                        filter,
+                        sub_id: userId,
+                        image_id: photo.id,
+                      })
+                    }
+                  >
+                    Add to favourites
+                  </button>
+                </div>
+              )}
             />
           </div>
 
