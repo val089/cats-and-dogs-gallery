@@ -49,18 +49,18 @@ export const GalleryFavourites = ({ userId }: GalleryFavouritesProps) => {
   }
 
   if (isError) {
-    toast.error('asdas');
+    toast.error('Problem with fetching data.');
     return null;
   }
 
   return (
     <>
+      <Filters onCats={() => setFilter('cats')} onDogs={() => setFilter('dogs')} />
       {!formatedPhotos?.length && (
-        <p className={classes.info}>{`You don't have any favourites at this moment.`}</p>
+        <p className={classes.info}>{`You don't have any favourites ${filter} at this moment.`}</p>
       )}
       {!!formatedPhotos?.length && (
         <>
-          <Filters onCats={() => setFilter('cats')} onDogs={() => setFilter('dogs')} />
           <PhotoAlbum
             photos={formatedPhotos}
             layout="masonry"
@@ -82,9 +82,6 @@ export const GalleryFavourites = ({ userId }: GalleryFavouritesProps) => {
                   className={classes.deleteFromFavouritesBtn}
                   onClick={async () => {
                     const filter = src.includes('dog') ? 'dogs' : 'cats';
-                    console.log(src);
-                    console.log(filter);
-                    console.log(id);
                     await removeFromFavourites({ filter: filter, id });
                   }}
                 >
