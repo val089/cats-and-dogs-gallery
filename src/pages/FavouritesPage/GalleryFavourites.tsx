@@ -49,7 +49,7 @@ export const GalleryFavourites = ({ userId }: GalleryFavouritesProps) => {
   }
 
   if (isError) {
-    toast.error('asdas');
+    toast.error('Problem with fetching data.');
     return null;
   }
 
@@ -82,9 +82,6 @@ export const GalleryFavourites = ({ userId }: GalleryFavouritesProps) => {
                   className={classes.deleteFromFavouritesBtn}
                   onClick={async () => {
                     const filter = src.includes('dog') ? 'dogs' : 'cats';
-                    console.log(src);
-                    console.log(filter);
-                    console.log(id);
                     await removeFromFavourites({ filter: filter, id });
                   }}
                 >
