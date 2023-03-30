@@ -74,3 +74,24 @@ export interface SelectedPage {
   selected: number;
 }
 export type Filter = 'dogs' | 'cats';
+
+export interface Photo {
+  id: string;
+  src: string;
+  width: number;
+  height: number;
+}
+
+export interface FavouritePhoto {
+  id: number;
+  user_id: string;
+  image_id: string;
+  sub_id: string;
+  created_at: string;
+  image: Image;
+}
+
+export interface Image {
+  id: string;
+  url: string;
+}

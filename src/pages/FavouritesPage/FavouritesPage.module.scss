@@ -1,0 +1,9 @@
+.favourites {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding-top: 40px;
+
+  @media (max-width: 1300px) {
+    padding: 40px 20px;
+  }
+}

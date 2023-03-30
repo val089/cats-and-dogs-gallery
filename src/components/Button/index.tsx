@@ -1,15 +1,16 @@
+import { ReactNode } from 'react';
 import classes from './Button.module.scss';
 
 interface ButtonProps {
-  label: string;
+  children: ReactNode | string;
   onClick: () => void;
   style?: string;
 }
 
-export const Button = ({ label, onClick, style = '' }: ButtonProps) => {
+export const Button = ({ children, onClick, style = '' }: ButtonProps) => {
   return (
     <button className={`${classes.button} ${style}`} onClick={onClick}>
-      {label}
+      {children}
     </button>
   );
 };

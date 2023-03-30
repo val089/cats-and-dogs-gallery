@@ -1,3 +1,3 @@
 export * from './HomePage';
 export * from './GalleryPage';
-export * from './FavourtiesPage';
+export * from './FavouritesPage';
