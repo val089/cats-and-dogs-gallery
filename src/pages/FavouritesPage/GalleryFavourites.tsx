@@ -56,6 +56,9 @@ export const GalleryFavourites = ({ userId }: GalleryFavouritesProps) => {
   return (
     <>
       <Filters onCats={() => setFilter('cats')} onDogs={() => setFilter('dogs')} />
+      {!formatedPhotos?.length && (
+        <p className={classes.info}>{`You don't have any favourites at this moment.`}</p>
+      )}
       {!!formatedPhotos?.length && (
         <>
           <PhotoAlbum
