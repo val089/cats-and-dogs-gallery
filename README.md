@@ -1,4 +1,4 @@
-![image](https://user-images.githubusercontent.com/30775271/228918734-4262f8bc-72a9-44e0-a0f4-4a2c83b077e6.png)
+![image](https://user-images.githubusercontent.com/30775271/229032814-a455bc46-453d-41db-95d5-563f91b7c12f.png)
 
 ## Installation
 1. Clone this repo.
