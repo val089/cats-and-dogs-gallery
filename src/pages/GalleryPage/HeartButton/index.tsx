@@ -16,8 +16,8 @@ export const HearButton = ({ filter, userId, photoId, isInFavourites }: HearButt
   return (
     <button
       className={classes.heartButton}
-      onClick={() => {
-        addToFavourites({
+      onClick={async () => {
+        await addToFavourites({
           filter,
           sub_id: userId,
           image_id: photoId,
