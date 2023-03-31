@@ -11,6 +11,7 @@ import 'yet-another-react-lightbox/plugins/thumbnails.css';
 import { Filters, Loader } from '@app/components';
 import { Filter } from '@app/models';
 import classes from './GalleryFavourites.module.scss';
+import useMediaQuery from '@app/hooks/useMediaQuery';
 
 const renderContainer: RenderContainer = ({ containerProps, children, containerRef }) => (
   <div
@@ -36,6 +37,8 @@ export const GalleryFavourites = ({ userId }: GalleryFavouritesProps) => {
 
   const { data: photos, isFetching, isError } = useFetchFavouritesQuery({ filter, userId });
   const [removeFromFavourites, { isLoading: isRemoving }] = useRemoveFromFavouritesMutation();
+
+  const isMobile = useMediaQuery('(max-width: 700px)');
 
   const formatedPhotos = photos?.map((photo) => ({
     ...photo,
@@ -64,6 +67,7 @@ export const GalleryFavourites = ({ userId }: GalleryFavouritesProps) => {
           <PhotoAlbum
             photos={formatedPhotos}
             layout="masonry"
+            columns={isMobile ? 1 : 3}
             spacing={5}
             onClick={({ index }) => setPhotoIndex(index)}
             renderContainer={renderContainer}
@@ -82,7 +86,7 @@ export const GalleryFavourites = ({ userId }: GalleryFavouritesProps) => {
                   className={classes.deleteFromFavouritesBtn}
                   onClick={async () => {
                     const filter = src.includes('dog') ? 'dogs' : 'cats';
-                    await removeFromFavourites({ filter: filter, id });
+                    await removeFromFavourites({ filter, id });
                   }}
                 >
                   Remove
