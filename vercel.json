@@ -2,11 +2,11 @@
   "rewrites": [
     {
       "source": "/gallery",
-      "destination": "/gallery"
+      "destination": "/"
     },
     {
       "source": "/favourites",
-      "destination": "/favourites"
+      "destination": "/"
     }
   ]
 }
